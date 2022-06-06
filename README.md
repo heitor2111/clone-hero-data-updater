@@ -1,6 +1,6 @@
-# CH Video Downloader
+# Clone Hero Data Updater
 
-### Script to download videos for your [Clone Hero](https://clonehero.net) songs automatically!
+### Script to update data (video and metadata) from your [Clone Hero](https://clonehero.net) songs automatically!
 
 ###### Project for studies in Python.
 
