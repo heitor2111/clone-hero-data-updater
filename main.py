@@ -1,3 +1,4 @@
+import codecs
 import os
 import glob
 from pytube import Search, YouTube
@@ -50,26 +51,27 @@ for index, music in enumerate(list):
         max_length = music['length'] + 5000
 
         if video.length * 1000 < max_length and video.length * 1000 > min_length:
-            streams = video.streams.order_by('resolution').desc().filter(file_extension='mp4', progressive=False)
+            streams = video.streams.order_by(attribute_name='resolution').desc().filter(file_extension='mp4', progressive=False, only_video=True)
 
             for stream in streams:
-                try:
-                    if (int(stream.resolution[:-1]) <= 1080):
-                        print(get_item_downloading(index, len(list)), 'Downloading:', music['name'])
+                if stream.codecs[0].startswith('avc1'):
+                    try:
+                        if (int(stream.resolution[:-1]) <= 1080):
+                            print(get_item_downloading(index, len(list)), 'Downloading:', music['name'])
 
-                        stream.download(music['directory'], 'video.' + stream.subtype)
-                
-                except:
-                    print('Error when downloading the video for', music['name'])
-                
-                else:
-                    downloaded = True
-                    break
+                            stream.download(music['directory'], 'video.' + stream.subtype)
+                    
+                    except:
+                        print('Error when downloading the video for', music['name'])
+                    
+                    else:
+                        downloaded = True
+                        break
 
-                finally:
-                    print('\n')
+                    finally:
+                        print('\n')
 
-        if downloaded:
-            break
+            if downloaded:
+                break
     else:
         print('No video found for the song', music['name'] + '.')
